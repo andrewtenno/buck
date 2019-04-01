@@ -871,10 +871,10 @@ public class AppleDescriptions {
       CxxPlatformsProvider platformsProvider,
       ImmutableSortedSet<BuildTarget> deps) {
     Set<Flavor> platformFlavors =
-        platformsProvider.getCxxPlatforms().containsAnyOf(buildTarget.getFlavors())
+        platformsProvider.getResolvedCxxPlatforms(graphBuilder).containsAnyOf(buildTarget.getFlavors())
             ? Sets.intersection(
-                platformsProvider.getCxxPlatforms().getFlavors(), buildTarget.getFlavors())
-            : ImmutableSet.of(platformsProvider.getDefaultCxxPlatform().getFlavor());
+                platformsProvider.getResolvedCxxPlatforms(graphBuilder).getFlavors(), buildTarget.getFlavors())
+            : ImmutableSet.of(platformsProvider.getDefaultUnresolvedCxxPlatform().getFlavor());
     Preconditions.checkState(
         platformFlavors.size() > 0,
         "Need to a cxx platform flavor to collect framework dependencies for %s",

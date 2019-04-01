@@ -64,11 +64,13 @@ public class PrebuiltAppleFrameworkDescription
 
   private final ToolchainProvider toolchainProvider;
   private final ImmutableSet<Flavor> declaredPlatforms;
+  private final CxxBuckConfig cxxBuckConfig;
 
   public PrebuiltAppleFrameworkDescription(
       ToolchainProvider toolchainProvider, CxxBuckConfig cxxBuckConfig) {
     this.toolchainProvider = toolchainProvider;
     this.declaredPlatforms = cxxBuckConfig.getDeclaredPlatforms();
+    this.cxxBuckConfig = cxxBuckConfig;
   }
 
   private FlavorDomain<AppleCxxPlatform> getAppleCxxPlatformsFlavorDomain() {
@@ -168,7 +170,8 @@ public class PrebuiltAppleFrameworkDescription
               params,
               context.getActionGraphBuilder(),
               multiarchFileInfo.get(),
-              thinRules.build());
+              thinRules.build(),
+              cxxBuckConfig);
       return fatBinaryRule;
     }
     return getThinBinaryRule(buildTarget, params, context);
